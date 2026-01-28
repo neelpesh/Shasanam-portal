@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="gu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>शासनम् - પંચાયત ડિજિટલ સેવા</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Gujarati:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-blue: #1a5f7a; --secondary-gold: #ffcc00; }
+        body { font-family: 'Noto Sans Gujarati', sans-serif; background-color: #f4f7f6; margin: 0; }
+        
+        header { background: linear-gradient(135deg, var(--primary-blue) 0%, #083d56 100%); color: white; padding: 40px 0; text-align: center; border-bottom: 6px solid var(--secondary-gold); }
+        .logo-main { font-size: 4.5rem; font-weight: bold; letter-spacing: 8px; text-shadow: 3px 3px 6px rgba(0,0,0,0.4); }
+        
+        nav { background: white; display: flex; justify-content: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        nav a { color: var(--primary-blue); text-decoration: none; padding: 18px 25px; font-weight: bold; cursor: pointer; border-bottom: 4px solid transparent; }
+        nav a:hover, nav a.active { color: #d4a017; border-bottom: 4px solid var(--secondary-gold); }
+
+        .container { max-width: 1200px; margin: 20px auto; padding: 20px; }
+        .page-section { display: none; }
+        .page-section.active { display: block; }
+
+        .forms-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+        .form-card { background: white; padding: 15px; border-radius: 8px; display: flex; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); border-left: 5px solid var(--primary-blue); cursor: pointer; transition: 0.2s; }
+        .form-card:hover { transform: scale(1.02); border-left-color: var(--secondary-gold); }
+
+        /* --- સર્ટિફિકેટ એડિટિંગ લોજિક --- */
+        .editable-data { 
+            border-bottom: 1px solid black; 
+            display: inline-block; 
+            outline: none; 
+            color: black; 
+            font-weight: bold;
+            padding: 0 5px;
+            white-space: pre-wrap;
+            line-height: 1.1;
+            vertical-align: baseline;
+        }
+
+        .cert-page { 
+            background: white; width: 210mm; min-height: 297mm; padding: 15mm; 
+            margin: auto; border: 2px solid #a52a2a; position: relative; 
+            color: #a52a2a; font-family: 'Times New Roman', serif; line-height: 2.6; font-size: 17px; 
+            text-align: justify;
+        }
+        .cert-header { text-align: center; line-height: 1.3; margin-bottom: 25px; }
+        .cert-header img { width: 55px; margin: 0 auto 5px; }
+
+        .legal-box { background: white; padding: 30px; border-radius: 12px; line-height: 1.8; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: var(--primary-blue); color: white; }
+
+        @media print { 
+            .no-print { display: none; } 
+            .cert-page { border: none; box-shadow: none; margin: 0; width: 100%; padding: 5mm; } 
+        }
+        footer { background: var(--primary-blue); color: white; text-align: center; padding: 40px 20px; margin-top: 50px; }
+        .footer-links span { cursor: pointer; color: var(--secondary-gold); text-decoration: underline; margin: 0 10px; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<header class="no-print">
+    <div class="logo-main"> शासनम् </div>
+    <div class="text-white text-lg font-bold">લોક કલ્યાણ અને ઝડપી સેવા</div>
+</header>
+
+<nav class="no-print">
+    <a onclick="showPage('home')" id="nav-home" class="active">હોમ</a>
+    <a onclick="showPage('forms')" id="nav-forms">વિવિધ અરજીઓ</a>
+    <a onclick="showPage('gov-links')" id="nav-gov">સરકારી વેબસાઇટ્સ</a>
+    <a onclick="showPage('about')" id="nav-about">અમારા વિશે</a>
+</nav>
+
+<div class="container">
+
+    <div id="home" class="page-section active no-print">
+        <div class="bg-white p-10 rounded-xl text-center shadow-md">
+            <h1 class="text-3xl font-bold text-blue-900 mb-4">જન સુવિધા માટે <span class="text-yellow-600"> शासनम् </span></h1>
+            <p class="text-gray-600 mb-6">પંચાયતના તમામ ડિજિટલ ફોર્મ્સ અને સેવાઓ હવે તમારી આંગળીના ટેરવે.</p>
+            <button onclick="showPage('forms')" class="bg-blue-800 text-white px-8 py-3 rounded-lg font-bold shadow-lg hover:bg-blue-700 transition">સેવાઓ શરૂ કરો</button>
+        </div>
+    </div>
+
+    <div id="forms" class="page-section no-print">
+        <h2 class="text-2xl font-bold text-center text-blue-900 mb-8">બધી જ ઓનલાઇન અરજીઓ</h2>
+        <div class="forms-grid">
+            <script>
+                const formsList = ["જન્મ દાખલો", "મરણ દાખલો", "જન્મ-મરણ સમરી", "અપ્રાપ્ય દાખલો", "વાર્ષિક રીપોર્ટ", "લગ્ન વાર્ષિક રીપોર્ટ", "લગ્ન નોંધણી પ્રમાણપત્ર", "લગ્ન નોંધણી અરજી", "લગ્ન નોંધણી ફોર્મ", "આવકનો દાખલો", "પેઢીઆંબો", "ચતુર્દિશાનો દાખલો", "ઉંમરનો દાખલો", "નોડયુ,પિયત દાખલો", "ઓળખનો દાખલો", "પાકનો દાખલો", "નોડયુ પ્રમાણપત્ર", "બી.પી.એલ દાખલો", "આકરણી", "જમીન મહેસુલ નોટીસ", "ગામ નમૂના નંબર-૨ અરજી", "काम પુર્ણતા", "નામ ફેરફાર", "વારસાઈ (જમીન)", "નામ કમી", "વિધવાનો દાખલો", "બાંધકામ રજાચિઠ્ઠી", "તારીજ"];
+                formsList.forEach((name, index) => {
+                    let action = (index === 6) ? "showPage('marriage-cert')" : "alert('આ ફોર્મ પર કામ ચાલુ છે')";
+                    document.write(`<div class="form-card" onclick="${action}"><span class="bg-blue-800 text-white w-8 h-8 rounded-full flex items-center justify-center mr-3 text-xs">${index + 1}</span> ${name}</div>`);
+                });
+            </script>
+        </div>
+    </div>
+
+    <div id="marriage-cert" class="page-section">
+        <div class="no-print mb-5 flex justify-between items-center bg-blue-100 p-4 rounded-lg shadow-sm">
+            <button onclick="showPage('forms')" class="text-blue-800 font-bold hover:underline">← પાછા જાઓ</button>
+            <button onclick="window.print()" class="bg-green-600 text-white px-8 py-2 rounded-full font-bold shadow-md hover:bg-green-700 transition">પ્રિન્ટ / PDF તરીકે સેવ કરો</button>
+        </div>
+
+        <div class="cert-page shadow-2xl">
+            <div class="cert-header">
+                <p style="font-size: 10px; position: absolute; left: 30px; top: 15px;">G.P.L..P.A. (Y) 147-8,00,000-8-2016</p>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Emblem_of_India.svg/100px-Emblem_of_India.svg.png">
+                <p style="font-weight:bold; font-size: 15px; margin:0;">GOVERNMENT OF GUJARAT</p>
+                <p style="font-weight:bold; font-size: 15px; margin:0;">FORM "II"</p>
+                <p style="font-size: 12px; margin:0;">(See Sub-section (2) of section 11 and sub-rule (5) and (6) of rule 4)</p>
+                <h2 class="text-2xl font-bold mt-2">Certificate of Registration of Marriage</h2>
+                <p style="font-style: italic; font-size: 14px; margin:0;">(Under the Gujarat Registration of Marriages Act, 2006)</p>
+            </div>
+
+            <div class="mt-10">
+                <p>No. <span contenteditable="true" class="editable-data" style="min-width: 120px;"></span></p>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This is to Certify that Shri <span contenteditable="true" class="editable-data" style="min-width: 280px;"></span> Son of Shri <span contenteditable="true" class="editable-data" style="min-width: 280px;"></span> residing at <span contenteditable="true" class="editable-data" style="min-width: 250px;"></span> and daughter of Shri <span contenteditable="true" class="editable-data" style="min-width: 280px;"></span> residing at <span contenteditable="true" class="editable-data" style="min-width: 250px;"></span> have furnished the particulars in Memorandum declaring that their marriage has been solemnized on <span contenteditable="true" class="editable-data" style="min-width: 120px;"></span> at <span contenteditable="true" class="editable-data" style="min-width: 150px;"></span> and that the same has been registered this day <span contenteditable="true" class="editable-data" style="min-width: 150px;"></span> of <span contenteditable="true" class="editable-data" style="min-width: 100px;"></span> 201<span contenteditable="true" class="editable-data" style="min-width: 25px;"></span> at serial No. <span contenteditable="true" class="editable-data" style="min-width: 70px;"></span> of volume <span contenteditable="true" class="editable-data" style="min-width: 70px;"></span> of Register of Marriages maintained under the Gujarat Registration of Marriages Act, 2006 (Guj. 16 of 2006).</p>
+            </div>
+
+            <div class="mt-24 flex justify-between items-end">
+                <div class="leading-relaxed">
+                    <p>Place : <span contenteditable="true" class="editable-data" style="min-width: 120px;"></span></p>
+                    <p>Date : <span contenteditable="true" class="editable-data" style="min-width: 120px;"></span></p>
+                </div>
+                <div class="text-center">
+                    <div style="border: 1px solid #a52a2a; width: 75px; height: 75px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; margin-bottom: 5px;">SEAL</div>
+                </div>
+                <div class="text-center leading-tight">
+                    <p>____________________</p>
+                    <p>Signature</p>
+                    <p><i>Registrar of Marriages</i></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="gov-links" class="page-section no-print">
+        <h2 class="text-2xl font-bold text-center text-blue-900 mb-5">મહત્વની સરકારી લિંક્સ</h2>
+        <table class="w-full text-left bg-white rounded-lg shadow">
+            <thead><tr class="bg-blue-800 text-white"><th>ક્રમ</th><th>વેબસાઇટ</th><th>ઉપયોગ</th></tr></thead>
+            <tbody>
+                <script>
+                    const sites = [["Digital Gujarat", "દાખલાઓ"], ["AnyRoR", "૭/૧૨, ૮-અ"], ["i-Khedut", "ખેતીવાડી"], ["e-Gram", "પંચાયત"], ["DigiLocker", "દસ્તાવેજ"], ["UIDAI", "આધાર કાર્ડ"], ["National Portal", "યોજનાઓ"], ["Jan Samarth", "લોન"], ["PM-Kisan", "હપ્તા"], ["RTE Gujarat", "શિક્ષણ"], ["SSY", "સુકન્યા"], ["E-Shram", "શ્રમિક"], ["GSRTC", "બસ બુકિંગ"], ["Vahan Info", "RTO"], ["NVSP", "ચૂંટણી કાર્ડ"]];
+                    sites.forEach((s, i) => document.write(`<tr><td>${i+1}</td><td>${s[0]}</td><td>${s[1]}</td></tr>`));
+                </script>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="privacy" class="page-section no-print"><div class="legal-box"><h2>Privacy Policy</h2><p>અમે તમારી ગોપનીયતાનું સન્માન કરીએ છીએ.</p></div></div>
+    <div id="terms" class="page-section no-print"><div class="legal-box"><h2>Terms & Conditions</h2><p>આ સાઇટ મદદના હેતુ માટે છે.</p></div></div>
+    <div id="disclaimer" class="page-section no-print"><div class="legal-box"><h2>Disclaimer</h2><p>આ એક ખાનગી પોર્ટલ છે.</p></div></div>
+    <div id="about" class="page-section no-print"><div class="legal-box"><h2> शासनम्  વિશે</h2><p>આ પોર્ટલ પંચાયતની સેવાઓને સરળ બનાવવા માટે તૈયાર કરવામાં આવ્યું છે.</p></div></div>
+
+</div>
+
+<footer class="no-print">
+    <p><strong><span style="font-size: 1.5rem; letter-spacing: 2px;"> शासनम् </span> - પંચાયત ડિજિટલ સેવા</strong></p>
+    <p>© 2026 शासनम्. All Rights Reserved.</p>
+    <div class="footer-links">
+        <span onclick="showPage('privacy')">Privacy Policy</span> | 
+        <span onclick="showPage('terms')">Terms & Conditions</span> | 
+        <span onclick="showPage('disclaimer')">Disclaimer</span>
+    </div>
+</footer>
+
+<script>
+    function showPage(id) {
+        document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        if(document.getElementById('nav-'+id)) document.getElementById('nav-'+id).classList.add('active');
+        window.scrollTo(0,0);
+    }
+</script>
+</body>
+</html>
